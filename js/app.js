@@ -28,6 +28,8 @@ class ZenPomodoro {
         this.audioContext = null;
         this.activeSounds = {};
         this.masterVolume = 0.5;
+        this.alarmInterval = null;
+        this.alarmOscillators = [];
         
         // Sound configurations for procedural audio generation
         this.soundConfigs = {
@@ -93,7 +95,13 @@ class ZenPomodoro {
             
             // Toast
             toast: document.getElementById('toast'),
-            toastMessage: document.getElementById('toastMessage')
+            toastMessage: document.getElementById('toastMessage'),
+            
+            // Alarm modal
+            alarmModal: document.getElementById('alarmModal'),
+            alarmTitle: document.getElementById('alarmTitle'),
+            alarmMessage: document.getElementById('alarmMessage'),
+            alarmDismiss: document.getElementById('alarmDismiss')
         };
     }
     
@@ -102,6 +110,9 @@ class ZenPomodoro {
         this.elements.startBtn.addEventListener('click', () => this.toggleTimer());
         this.elements.resetBtn.addEventListener('click', () => this.resetTimer());
         this.elements.skipBtn.addEventListener('click', () => this.skipSession());
+        
+        // Alarm dismiss
+        this.elements.alarmDismiss.addEventListener('click', () => this.dismissAlarm());
         
         // Session tabs
         this.elements.tabs.forEach(tab => {
@@ -190,11 +201,16 @@ class ZenPomodoro {
     completeSession() {
         this.pauseTimer();
         
-        // Play notification sound
+        // Show alarm notification
         if (this.settings.soundNotifications) {
-            this.playNotificationSound();
+            this.showAlarm();
+        } else {
+            // Just show toast if sound notifications are off
+            this.proceedAfterAlarm();
         }
-        
+    }
+    
+    proceedAfterAlarm() {
         // Update session count
         if (this.currentSession === 'work') {
             this.completedSessions++;
@@ -210,16 +226,153 @@ class ZenPomodoro {
             }
             
             if (this.settings.autoStartBreaks) {
-                setTimeout(() => this.startTimer(), 1000);
+                setTimeout(() => this.startTimer(), 1500);
             }
         } else {
             this.switchSession('work');
             this.showToast('Break complete! Ready to focus?');
             
             if (this.settings.autoStartWork) {
-                setTimeout(() => this.startTimer(), 1000);
+                setTimeout(() => this.startTimer(), 1500);
             }
         }
+    }
+    
+    showAlarm() {
+        // Set alarm message based on session type
+        if (this.currentSession === 'work') {
+            this.elements.alarmTitle.textContent = "Time's Up!";
+            this.elements.alarmMessage.textContent = 'Focus session complete. Great work!';
+        } else if (this.currentSession === 'shortBreak') {
+            this.elements.alarmTitle.textContent = 'Break Over!';
+            this.elements.alarmMessage.textContent = 'Short break complete. Ready to focus?';
+        } else {
+            this.elements.alarmTitle.textContent = 'Break Over!';
+            this.elements.alarmMessage.textContent = 'Long break complete. Let\'s get back to it!';
+        }
+        
+        // Show the alarm modal
+        this.elements.alarmModal.classList.remove('hidden');
+        
+        // Start alarm sound
+        this.startAlarmSound();
+        
+        // Request browser notification
+        this.showBrowserNotification();
+    }
+    
+    dismissAlarm() {
+        // Hide the alarm modal
+        this.elements.alarmModal.classList.add('hidden');
+        
+        // Stop alarm sound
+        this.stopAlarmSound();
+        
+        // Proceed with session transition
+        this.proceedAfterAlarm();
+    }
+    
+    startAlarmSound() {
+        const ctx = this.initAudioContext();
+        if (!ctx) return;
+        
+        if (this.audioContext.state === 'suspended') {
+            this.audioContext.resume();
+        }
+        
+        // Play alarm sound repeatedly
+        const playAlarmTone = () => {
+            try {
+                // Create a two-tone alarm sound
+                const now = this.audioContext.currentTime;
+                
+                // First tone
+                const osc1 = this.audioContext.createOscillator();
+                const gain1 = this.audioContext.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.value = 880; // A5
+                gain1.gain.setValueAtTime(0.001, now);
+                gain1.gain.linearRampToValueAtTime(this.masterVolume * 0.4, now + 0.05);
+                gain1.gain.linearRampToValueAtTime(this.masterVolume * 0.4, now + 0.2);
+                gain1.gain.linearRampToValueAtTime(0.001, now + 0.25);
+                osc1.connect(gain1);
+                gain1.connect(this.audioContext.destination);
+                osc1.start(now);
+                osc1.stop(now + 0.3);
+                
+                // Second tone (higher)
+                const osc2 = this.audioContext.createOscillator();
+                const gain2 = this.audioContext.createGain();
+                osc2.type = 'sine';
+                osc2.frequency.value = 1175; // D6
+                gain2.gain.setValueAtTime(0.001, now + 0.3);
+                gain2.gain.linearRampToValueAtTime(this.masterVolume * 0.4, now + 0.35);
+                gain2.gain.linearRampToValueAtTime(this.masterVolume * 0.4, now + 0.5);
+                gain2.gain.linearRampToValueAtTime(0.001, now + 0.55);
+                osc2.connect(gain2);
+                gain2.connect(this.audioContext.destination);
+                osc2.start(now + 0.3);
+                osc2.stop(now + 0.6);
+                
+                this.alarmOscillators.push(osc1, osc2);
+            } catch (e) {
+                console.error('Error playing alarm:', e);
+            }
+        };
+        
+        // Play immediately and then repeat
+        playAlarmTone();
+        this.alarmInterval = setInterval(playAlarmTone, 800);
+    }
+    
+    stopAlarmSound() {
+        // Clear the repeat interval
+        if (this.alarmInterval) {
+            clearInterval(this.alarmInterval);
+            this.alarmInterval = null;
+        }
+        
+        // Stop any playing oscillators
+        this.alarmOscillators.forEach(osc => {
+            try { osc.stop(); } catch(e) {}
+        });
+        this.alarmOscillators = [];
+    }
+    
+    showBrowserNotification() {
+        // Check if browser supports notifications
+        if (!('Notification' in window)) return;
+        
+        // Check permission and request if needed
+        if (Notification.permission === 'granted') {
+            this.createBrowserNotification();
+        } else if (Notification.permission !== 'denied') {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    this.createBrowserNotification();
+                }
+            });
+        }
+    }
+    
+    createBrowserNotification() {
+        const title = this.currentSession === 'work' ? "Time's Up!" : 'Break Over!';
+        const body = this.currentSession === 'work' 
+            ? 'Focus session complete. Take a break!' 
+            : 'Break complete. Ready to focus?';
+        
+        const notification = new Notification(title, {
+            body: body,
+            icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%236366f1"/><text x="50" y="60" font-size="30" text-anchor="middle" fill="white">⏰</text></svg>',
+            tag: 'zen-pomodoro-alarm',
+            requireInteraction: true
+        });
+        
+        notification.onclick = () => {
+            window.focus();
+            this.dismissAlarm();
+            notification.close();
+        };
     }
     
     switchSession(sessionType) {
@@ -858,7 +1011,12 @@ class ZenPomodoro {
                 }
                 break;
             case 'Escape':
-                this.closeSettingsModal();
+                // Dismiss alarm first if visible, otherwise close settings
+                if (!this.elements.alarmModal.classList.contains('hidden')) {
+                    this.dismissAlarm();
+                } else {
+                    this.closeSettingsModal();
+                }
                 break;
             case 'Digit1':
                 this.switchSession('work');
