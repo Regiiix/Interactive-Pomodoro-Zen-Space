@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen Space | Pomodoro Timer</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <div class="background-container" id="backgroundContainer">
+        <!-- Mountain Scene -->
+        <svg class="bg-scene active" id="bg-mountains" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#1a1a2e"/>
+                    <stop offset="50%" style="stop-color:#16213e"/>
+                    <stop offset="100%" style="stop-color:#0f3460"/>
+                </linearGradient>
+                <linearGradient id="mountainGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#2d3436"/>
+                    <stop offset="100%" style="stop-color:#1e272e"/>
+                </linearGradient>
+                <linearGradient id="mountainGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#636e72"/>
+                    <stop offset="100%" style="stop-color:#2d3436"/>
+                </linearGradient>
+            </defs>
+            <rect fill="url(#skyGradient)" width="1440" height="900"/>
+            <!-- Stars -->
+            <g class="stars">
+                <circle cx="100" cy="80" r="1.5" fill="#fff" opacity="0.8"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="3s" repeatCount="indefinite"/></circle>
+                <circle cx="200" cy="120" r="1" fill="#fff" opacity="0.6"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.5s" repeatCount="indefinite"/></circle>
+                <circle cx="350" cy="60" r="1.2" fill="#fff" opacity="0.7"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="4s" repeatCount="indefinite"/></circle>
+                <circle cx="500" cy="150" r="1" fill="#fff" opacity="0.5"><animate attributeName="opacity" values="0.5;0.2;0.5" dur="3.5s" repeatCount="indefinite"/></circle>
+                <circle cx="700" cy="90" r="1.8" fill="#fff" opacity="0.9"><animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" repeatCount="indefinite"/></circle>
+                <circle cx="850" cy="130" r="1" fill="#fff" opacity="0.6"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.2s" repeatCount="indefinite"/></circle>
+                <circle cx="1000" cy="70" r="1.5" fill="#fff" opacity="0.7"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.8s" repeatCount="indefinite"/></circle>
+                <circle cx="1150" cy="100" r="1.2" fill="#fff" opacity="0.8"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="3.8s" repeatCount="indefinite"/></circle>
+                <circle cx="1300" cy="60" r="1" fill="#fff" opacity="0.5"><animate attributeName="opacity" values="0.5;0.2;0.5" dur="4.2s" repeatCount="indefinite"/></circle>
+                <circle cx="1400" cy="140" r="1.3" fill="#fff" opacity="0.6"><animate attributeName="opacity" values="0.6;0.3;0.6" dur="3s" repeatCount="indefinite"/></circle>
+            </g>
+            <!-- Moon -->
+            <circle cx="1200" cy="150" r="50" fill="#f5f5dc" opacity="0.9"/>
+            <circle cx="1210" cy="140" r="45" fill="url(#skyGradient)" opacity="0.3"/>
+            <!-- Mountains -->
+            <polygon fill="url(#mountainGrad2)" points="0,600 300,300 600,550 800,350 1100,500 1440,400 1440,900 0,900"/>
+            <polygon fill="url(#mountainGrad1)" points="0,700 200,450 500,600 700,400 1000,550 1200,450 1440,550 1440,900 0,900"/>
+            <!-- Trees silhouette -->
+            <g fill="#1a1a2e" opacity="0.8">
+                <polygon points="50,900 70,700 90,900"/>
+                <polygon points="120,900 145,680 170,900"/>
+                <polygon points="200,900 230,720 260,900"/>
+                <polygon points="1200,900 1225,750 1250,900"/>
+                <polygon points="1280,900 1310,700 1340,900"/>
+                <polygon points="1350,900 1380,730 1410,900"/>
+            </g>
+            <!-- Floating particles -->
+            <g class="particles">
+                <circle r="2" fill="#fff" opacity="0.3">
+                    <animate attributeName="cx" values="0;1440" dur="20s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="400;350;400" dur="5s" repeatCount="indefinite"/>
+                </circle>
+                <circle r="1.5" fill="#fff" opacity="0.2">
+                    <animate attributeName="cx" values="200;1640" dur="25s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="500;450;500" dur="6s" repeatCount="indefinite"/>
+                </circle>
+                <circle r="2.5" fill="#fff" opacity="0.25">
+                    <animate attributeName="cx" values="-100;1340" dur="30s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="300;250;300" dur="4s" repeatCount="indefinite"/>
+                </circle>
+            </g>
+        </svg>
+
+        <!-- Ocean Scene -->
+        <svg class="bg-scene" id="bg-ocean" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <linearGradient id="oceanSky" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ff7e5f"/>
+                    <stop offset="50%" style="stop-color:#feb47b"/>
+                    <stop offset="100%" style="stop-color:#86a8e7"/>
+                </linearGradient>
+                <linearGradient id="waterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#667eea"/>
+                    <stop offset="100%" style="stop-color:#764ba2"/>
+                </linearGradient>
+            </defs>
+            <rect fill="url(#oceanSky)" width="1440" height="450"/>
+            <rect y="450" fill="url(#waterGrad)" width="1440" height="450"/>
+            <!-- Sun -->
+            <circle cx="720" cy="300" r="80" fill="#fff" opacity="0.9">
+                <animate attributeName="cy" values="300;310;300" dur="4s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="720" cy="300" r="100" fill="#fff" opacity="0.3">
+                <animate attributeName="r" values="100;120;100" dur="3s" repeatCount="indefinite"/>
+            </circle>
+            <!-- Waves -->
+            <g class="ocean-waves">
+                <path fill="#5c6bc0" opacity="0.6">
+                    <animate attributeName="d" 
+                        values="M0,500 Q180,470 360,500 T720,500 T1080,500 T1440,500 L1440,900 L0,900 Z;
+                                M0,500 Q180,530 360,500 T720,500 T1080,500 T1440,500 L1440,900 L0,900 Z;
+                                M0,500 Q180,470 360,500 T720,500 T1080,500 T1440,500 L1440,900 L0,900 Z" 
+                        dur="4s" repeatCount="indefinite"/>
+                </path>
+                <path fill="#7986cb" opacity="0.5">
+                    <animate attributeName="d" 
+                        values="M0,550 Q180,520 360,550 T720,550 T1080,550 T1440,550 L1440,900 L0,900 Z;
+                                M0,550 Q180,580 360,550 T720,550 T1080,550 T1440,550 L1440,900 L0,900 Z;
+                                M0,550 Q180,520 360,550 T720,550 T1080,550 T1440,550 L1440,900 L0,900 Z" 
+                        dur="5s" repeatCount="indefinite"/>
+                </path>
+                <path fill="#9fa8da" opacity="0.4">
+                    <animate attributeName="d" 
+                        values="M0,600 Q180,570 360,600 T720,600 T1080,600 T1440,600 L1440,900 L0,900 Z;
+                                M0,600 Q180,630 360,600 T720,600 T1080,600 T1440,600 L1440,900 L0,900 Z;
+                                M0,600 Q180,570 360,600 T720,600 T1080,600 T1440,600 L1440,900 L0,900 Z" 
+                        dur="6s" repeatCount="indefinite"/>
+                </path>
+            </g>
+            <!-- Birds -->
+            <g class="birds" fill="none" stroke="#333" stroke-width="2">
+                <path d="M100,200 Q110,190 120,200 Q130,190 140,200">
+                    <animateTransform attributeName="transform" type="translate" values="0,0;1500,50" dur="15s" repeatCount="indefinite"/>
+                </path>
+                <path d="M50,180 Q60,170 70,180 Q80,170 90,180">
+                    <animateTransform attributeName="transform" type="translate" values="0,0;1500,30" dur="18s" repeatCount="indefinite"/>
+                </path>
+            </g>
+        </svg>
+
+        <!-- Forest Scene -->
+        <svg class="bg-scene" id="bg-forest" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <linearGradient id="forestSky" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#134e5e"/>
+                    <stop offset="100%" style="stop-color:#71b280"/>
+                </linearGradient>
+                <linearGradient id="treeGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#2d5016"/>
+                    <stop offset="100%" style="stop-color:#1a3409"/>
+                </linearGradient>
+                <linearGradient id="treeGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#3d6b1e"/>
+                    <stop offset="100%" style="stop-color:#2d5016"/>
+                </linearGradient>
+            </defs>
+            <rect fill="url(#forestSky)" width="1440" height="900"/>
+            <!-- Sun rays -->
+            <g class="sun-rays" opacity="0.3">
+                <polygon fill="#fff" points="400,0 450,400 350,400">
+                    <animate attributeName="opacity" values="0.3;0.5;0.3" dur="4s" repeatCount="indefinite"/>
+                </polygon>
+                <polygon fill="#fff" points="600,0 680,350 520,350">
+                    <animate attributeName="opacity" values="0.2;0.4;0.2" dur="5s" repeatCount="indefinite"/>
+                </polygon>
+                <polygon fill="#fff" points="900,0 970,300 830,300">
+                    <animate attributeName="opacity" values="0.25;0.45;0.25" dur="3.5s" repeatCount="indefinite"/>
+                </polygon>
+            </g>
+            <!-- Back trees -->
+            <g fill="url(#treeGrad2)">
+                <polygon points="100,900 150,400 200,900"/>
+                <polygon points="250,900 320,350 390,900"/>
+                <polygon points="400,900 480,300 560,900"/>
+                <polygon points="550,900 640,380 730,900"/>
+                <polygon points="750,900 850,320 950,900"/>
+                <polygon points="950,900 1050,400 1150,900"/>
+                <polygon points="1150,900 1250,350 1350,900"/>
+                <polygon points="1300,900 1380,420 1440,900"/>
+            </g>
+            <!-- Front trees -->
+            <g fill="url(#treeGrad1)">
+                <polygon points="0,900 80,500 160,900"/>
+                <polygon points="180,900 280,450 380,900"/>
+                <polygon points="420,900 540,400 660,900"/>
+                <polygon points="680,900 800,480 920,900"/>
+                <polygon points="980,900 1100,420 1220,900"/>
+                <polygon points="1260,900 1360,500 1440,900"/>
+            </g>
+            <!-- Fireflies -->
+            <g class="fireflies">
+                <circle r="3" fill="#ffeb3b">
+                    <animate attributeName="cx" values="200;220;200;180;200" dur="8s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="600;580;620;600;600" dur="6s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <circle r="2" fill="#ffeb3b">
+                    <animate attributeName="cx" values="500;480;520;500;500" dur="7s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="550;530;570;550;550" dur="5s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite"/>
+                </circle>
+                <circle r="2.5" fill="#ffeb3b">
+                    <animate attributeName="cx" values="800;820;780;800;800" dur="9s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="620;600;640;620;620" dur="7s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0;1;0" dur="1.8s" repeatCount="indefinite"/>
+                </circle>
+                <circle r="2" fill="#ffeb3b">
+                    <animate attributeName="cx" values="1100;1080;1120;1100;1100" dur="6s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="580;560;600;580;580" dur="8s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0;1;0" dur="2.2s" repeatCount="indefinite"/>
+                </circle>
+                <circle r="3" fill="#ffeb3b">
+                    <animate attributeName="cx" values="1300;1320;1280;1300;1300" dur="10s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="650;630;670;650;650" dur="6s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/>
+                </circle>
+            </g>
+            <!-- Ground -->
+            <rect y="850" fill="#1a3409" width="1440" height="50"/>
+        </svg>
+
+        <!-- Space Scene -->
+        <svg class="bg-scene" id="bg-space" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <radialGradient id="spaceGrad" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" style="stop-color:#1a0533"/>
+                    <stop offset="50%" style="stop-color:#0d001a"/>
+                    <stop offset="100%" style="stop-color:#000"/>
+                </radialGradient>
+                <radialGradient id="nebulaGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" style="stop-color:#ff006e;stop-opacity:0.3"/>
+                    <stop offset="100%" style="stop-color:#ff006e;stop-opacity:0"/>
+                </radialGradient>
+                <radialGradient id="nebulaGrad2" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" style="stop-color:#8338ec;stop-opacity:0.25"/>
+                    <stop offset="100%" style="stop-color:#8338ec;stop-opacity:0"/>
+                </radialGradient>
+            </defs>
+            <rect fill="url(#spaceGrad)" width="1440" height="900"/>
+            <!-- Nebulas -->
+            <ellipse cx="300" cy="400" rx="300" ry="200" fill="url(#nebulaGrad)">
+                <animate attributeName="rx" values="300;320;300" dur="10s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse cx="1100" cy="300" rx="250" ry="180" fill="url(#nebulaGrad2)">
+                <animate attributeName="ry" values="180;200;180" dur="8s" repeatCount="indefinite"/>
+            </ellipse>
+            <!-- Stars field -->
+            <g class="stars-field">
+                <circle cx="50" cy="50" r="1.5" fill="#fff"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>
+                <circle cx="150" cy="100" r="1" fill="#fff"><animate attributeName="opacity" values="0.8;0.2;0.8" dur="3s" repeatCount="indefinite"/></circle>
+                <circle cx="250" cy="30" r="2" fill="#fff"><animate attributeName="opacity" values="0.9;0.4;0.9" dur="2.5s" repeatCount="indefinite"/></circle>
+                <circle cx="350" cy="150" r="1.2" fill="#fff"><animate attributeName="opacity" values="0.7;0.2;0.7" dur="4s" repeatCount="indefinite"/></circle>
+                <circle cx="450" cy="80" r="1.8" fill="#fff"><animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/></circle>
+                <circle cx="550" cy="200" r="1" fill="#fff"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.5s" repeatCount="indefinite"/></circle>
+                <circle cx="650" cy="50" r="1.5" fill="#fff"><animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.2s" repeatCount="indefinite"/></circle>
+                <circle cx="750" cy="180" r="2" fill="#fff"><animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.8s" repeatCount="indefinite"/></circle>
+                <circle cx="850" cy="100" r="1.2" fill="#fff"><animate attributeName="opacity" values="1;0.2;1" dur="3.2s" repeatCount="indefinite"/></circle>
+                <circle cx="950" cy="220" r="1" fill="#fff"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.6s" repeatCount="indefinite"/></circle>
+                <circle cx="1050" cy="60" r="1.8" fill="#fff"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="3.8s" repeatCount="indefinite"/></circle>
+                <circle cx="1150" cy="140" r="1.5" fill="#fff"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.4s" repeatCount="indefinite"/></circle>
+                <circle cx="1250" cy="90" r="1" fill="#fff"><animate attributeName="opacity" values="1;0.4;1" dur="4.2s" repeatCount="indefinite"/></circle>
+                <circle cx="1350" cy="170" r="2" fill="#fff"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/></circle>
+                <circle cx="100" cy="300" r="1.2" fill="#fff"><animate attributeName="opacity" values="0.9;0.3;0.9" dur="3s" repeatCount="indefinite"/></circle>
+                <circle cx="200" cy="400" r="1.5" fill="#fff"><animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.7s" repeatCount="indefinite"/></circle>
+                <circle cx="400" cy="350" r="1" fill="#fff"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="3.3s" repeatCount="indefinite"/></circle>
+                <circle cx="600" cy="450" r="1.8" fill="#fff"><animate attributeName="opacity" values="1;0.4;1" dur="2.1s" repeatCount="indefinite"/></circle>
+                <circle cx="800" cy="380" r="1.2" fill="#fff"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.6s" repeatCount="indefinite"/></circle>
+                <circle cx="1000" cy="420" r="1" fill="#fff"><animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.9s" repeatCount="indefinite"/></circle>
+                <circle cx="1200" cy="350" r="1.5" fill="#fff"><animate attributeName="opacity" values="0.8;0.2;0.8" dur="3.1s" repeatCount="indefinite"/></circle>
+                <circle cx="1400" cy="400" r="2" fill="#fff"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.3s" repeatCount="indefinite"/></circle>
+                <circle cx="100" cy="600" r="1" fill="#fff"><animate attributeName="opacity" values="1;0.4;1" dur="3.4s" repeatCount="indefinite"/></circle>
+                <circle cx="300" cy="700" r="1.8" fill="#fff"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="2.5s" repeatCount="indefinite"/></circle>
+                <circle cx="500" cy="650" r="1.2" fill="#fff"><animate attributeName="opacity" values="0.6;0.3;0.6" dur="3.7s" repeatCount="indefinite"/></circle>
+                <circle cx="700" cy="750" r="1.5" fill="#fff"><animate attributeName="opacity" values="0.8;0.2;0.8" dur="2.8s" repeatCount="indefinite"/></circle>
+                <circle cx="900" cy="680" r="1" fill="#fff"><animate attributeName="opacity" values="1;0.3;1" dur="3.2s" repeatCount="indefinite"/></circle>
+                <circle cx="1100" cy="600" r="2" fill="#fff"><animate attributeName="opacity" values="0.7;0.4;0.7" dur="2.6s" repeatCount="indefinite"/></circle>
+                <circle cx="1300" cy="720" r="1.2" fill="#fff"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="3.9s" repeatCount="indefinite"/></circle>
+            </g>
+            <!-- Shooting stars -->
+            <g class="shooting-stars">
+                <line x1="0" y1="0" x2="50" y2="50" stroke="url(#shootingGrad)" stroke-width="2">
+                    <animate attributeName="x1" values="-100;1500" dur="8s" repeatCount="indefinite"/>
+                    <animate attributeName="y1" values="200;600" dur="8s" repeatCount="indefinite"/>
+                    <animate attributeName="x2" values="-50;1550" dur="8s" repeatCount="indefinite"/>
+                    <animate attributeName="y2" values="250;650" dur="8s" repeatCount="indefinite"/>
+                </line>
+            </g>
+            <!-- Planet -->
+            <circle cx="1300" cy="700" r="60" fill="#3a506b"/>
+            <ellipse cx="1300" cy="700" rx="90" ry="15" fill="none" stroke="#81a4cd" stroke-width="8" opacity="0.6" transform="rotate(-20, 1300, 700)"/>
+        </svg>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+                    <path d="M16 8V16L22 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>Zen Space</span>
+            </div>
+            <button class="settings-btn" id="settingsBtn" title="Settings">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+                </svg>
+            </button>
+        </header>
+
+        <!-- Timer Section -->
+        <main class="timer-section">
+            <!-- Session Tabs -->
+            <div class="session-tabs">
+                <button class="tab active" data-session="work">Focus</button>
+                <button class="tab" data-session="shortBreak">Short Break</button>
+                <button class="tab" data-session="longBreak">Long Break</button>
+            </div>
+
+            <!-- Timer Display -->
+            <div class="timer-display">
+                <div class="timer-ring">
+                    <svg class="progress-ring" width="300" height="300">
+                        <circle class="progress-ring-bg" cx="150" cy="150" r="140" stroke-width="8"/>
+                        <circle class="progress-ring-fill" cx="150" cy="150" r="140" stroke-width="8" id="progressRing"/>
+                    </svg>
+                    <div class="timer-content">
+                        <span class="time" id="timerDisplay">25:00</span>
+                        <span class="session-label" id="sessionLabel">Focus Time</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timer Controls -->
+            <div class="timer-controls">
+                <button class="control-btn secondary" id="resetBtn" title="Reset">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                        <path d="M3 3v5h5"/>
+                    </svg>
+                </button>
+                <button class="control-btn primary" id="startBtn">
+                    <svg class="play-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                    <svg class="pause-icon hidden" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="6" y="4" width="4" height="16"/>
+                        <rect x="14" y="4" width="4" height="16"/>
+                    </svg>
+                </button>
+                <button class="control-btn secondary" id="skipBtn" title="Skip">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 4 15 12 5 20 5 4"/>
+                        <line x1="19" y1="5" x2="19" y2="19"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Session Counter -->
+            <div class="session-counter">
+                <span id="sessionCounter">Session 1 of 4</span>
+            </div>
+        </main>
+
+        <!-- Bottom Controls Panel -->
+        <div class="bottom-panel">
+            <!-- Background Selector -->
+            <div class="control-group">
+                <span class="control-label">Scene</span>
+                <div class="scene-selector">
+                    <button class="scene-btn active" data-bg="mountains" title="Mountains">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <polygon points="12 4 22 20 2 20"/>
+                        </svg>
+                    </button>
+                    <button class="scene-btn" data-bg="ocean" title="Ocean">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 12c1.5-1.5 3-2 4.5-2s3 .5 4.5 2 3 2 4.5 2 3-.5 4.5-2"/>
+                            <path d="M2 17c1.5-1.5 3-2 4.5-2s3 .5 4.5 2 3 2 4.5 2 3-.5 4.5-2"/>
+                        </svg>
+                    </button>
+                    <button class="scene-btn" data-bg="forest" title="Forest">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <polygon points="12 2 20 18 4 18"/>
+                            <rect x="10" y="18" width="4" height="4"/>
+                        </svg>
+                    </button>
+                    <button class="scene-btn" data-bg="space" title="Space">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="4"/>
+                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sound Controls -->
+            <div class="control-group">
+                <span class="control-label">Ambience</span>
+                <div class="sound-controls">
+                    <button class="sound-btn" data-sound="rain" title="Rain">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 13v8M8 13v8M12 15v8M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/>
+                        </svg>
+                        <span class="sound-name">Rain</span>
+                    </button>
+                    <button class="sound-btn" data-sound="forest" title="Forest">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <polygon points="12 2 20 18 4 18"/>
+                        </svg>
+                        <span class="sound-name">Forest</span>
+                    </button>
+                    <button class="sound-btn" data-sound="cafe" title="Cafe">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                            <path d="M6 1v3M10 1v3M14 1v3"/>
+                        </svg>
+                        <span class="sound-name">Cafe</span>
+                    </button>
+                    <button class="sound-btn" data-sound="waves" title="Waves">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 6c1.5 1.5 3 2 4.5 2s3-.5 4.5-2 3-2 4.5-2 3 .5 4.5 2"/>
+                            <path d="M2 12c1.5 1.5 3 2 4.5 2s3-.5 4.5-2 3-2 4.5-2 3 .5 4.5 2"/>
+                            <path d="M2 18c1.5 1.5 3 2 4.5 2s3-.5 4.5-2 3-2 4.5-2 3 .5 4.5 2"/>
+                        </svg>
+                        <span class="sound-name">Waves</span>
+                    </button>
+                    <button class="sound-btn" data-sound="whitenoise" title="White Noise">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="4" width="16" height="16" rx="2"/>
+                            <path d="M9 9h6v6H9z"/>
+                        </svg>
+                        <span class="sound-name">Noise</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Volume Control -->
+            <div class="control-group volume-group">
+                <span class="control-label">Volume</span>
+                <div class="volume-control">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                    </svg>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider">
+                    <span class="volume-value" id="volumeValue">50%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay hidden" id="settingsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="close-btn" id="closeSettings">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="setting-group">
+                    <label>Focus Duration (minutes)</label>
+                    <input type="number" id="workDuration" value="25" min="1" max="120">
+                </div>
+                <div class="setting-group">
+                    <label>Short Break (minutes)</label>
+                    <input type="number" id="shortBreakDuration" value="5" min="1" max="30">
+                </div>
+                <div class="setting-group">
+                    <label>Long Break (minutes)</label>
+                    <input type="number" id="longBreakDuration" value="15" min="1" max="60">
+                </div>
+                <div class="setting-group">
+                    <label>Sessions until Long Break</label>
+                    <input type="number" id="sessionsUntilLong" value="4" min="2" max="10">
+                </div>
+                <div class="setting-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="autoStartBreaks" checked>
+                        <span>Auto-start Breaks</span>
+                    </label>
+                </div>
+                <div class="setting-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="autoStartWork">
+                        <span>Auto-start Work Sessions</span>
+                    </label>
+                </div>
+                <div class="setting-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="soundNotifications" checked>
+                        <span>Sound Notifications</span>
+                    </label>
+                </div>
+                <button class="save-settings-btn" id="saveSettings">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast hidden" id="toast">
+        <span class="toast-message" id="toastMessage"></span>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
